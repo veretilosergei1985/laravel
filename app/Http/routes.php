@@ -50,7 +50,27 @@ Route::match(['post'], 'comment/add/{id}', [
 
 Route::get('home', 'HomeController@index');
 
+Route::post('comment/addform/{id}', [
+    'before'=>'csrf-ajax',
+    'as'=>'comment.addform',
+    'uses'=>'CommentController@addform'
+]);
+
+Route::post('comment/answer/{id}', [
+    'before'=>'csrf-ajax',
+    'as'=>'comment.answer',
+    'uses'=>'CommentController@answer'
+]);
+
 Route::controllers([
     'auth' => 'Auth\AuthController',
     'password' => 'Auth\PasswordController',
 ]);
+
+Route::filter('csrf-ajax', function()
+{
+    if (Session::token() != Request::header('x-csrf-token'))
+    {
+        //throw new Illuminate\Session\TokenMismatchException;
+    }
+});

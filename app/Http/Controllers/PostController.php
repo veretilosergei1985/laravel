@@ -84,9 +84,14 @@ class PostController extends Controller {
         public function view(Request $request, $id = '') {
             $model = \App\Models\Post::find($id);
             if (!is_null($model)) {
-                $comments = \App\Models\Comment::where('post_id', $id)->get();
-                //echo "<pre>"; print_r($comments); exit;
-                return view('post.view', ['model' => $model, 'comments' => $comments]);
+                //$comments = \App\Models\Comment::where('post_id', $id)->get();
+                
+                
+                $comment = new \App\Models\Comment();
+                $tree = $comment->getTree($id);                
+                //echo "<pre>"; print_r($tree); exit;
+                
+                return view('post.view', ['model' => $model, 'comments' => $tree]);
             }
             return response()->view('errors.404', array(), 404);
         }

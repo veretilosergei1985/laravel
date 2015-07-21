@@ -61,5 +61,33 @@ class CommentController extends Controller {
             }
             return response()->view('errors.404', array(), 404);
         }
+        
+        public function addform(Request $request, $id = '') {
+            $model = \App\Models\Comment::find($id);
+            $returnHTML = view('comment.form')->with('comment', $model)->render();
+            return json_encode(array('success' => true, 'html' => $returnHTML));
+        }
+        
+        public function answer(Request $request, $id = '') {
+            $model = \App\Models\Comment::find($id);
+            if (!is_null($model)) {
+                $this->validate($request, [
+                    'comment' => 'required',
+                ]);
+
+                $comment = \Illuminate\Support\Facades\Request::input('comment');
+                $postId = \Illuminate\Support\Facades\Request::input('postId');
+//                echo $id; exit;
+                $comment = \App\Models\Comment::create(array(
+                    'post_id' => $postId,
+                    'parent_id' => $id,
+                    'comment' => $comment,
+                    'user_id' => (int)Auth::user()->id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                ));
+                $returnHTML = view('comment.comment')->with('comment', $comment)->with('postId', $postId)->render();
+                return json_encode(array('success' => true, 'html' => $returnHTML));
+            }
+        }
 
 }

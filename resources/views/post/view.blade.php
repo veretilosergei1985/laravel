@@ -23,17 +23,7 @@
         
         <hr>
         <h2>Comments</h2>
-        @foreach ($comments as $comment)
-        <div class="comment-block" comment_id="{{$comment->id}}">
-            <div>
-                {{ $comment->comment }}
-            </div>
-            <div>
-                <i>Created : {{ $comment->created_at }}</i>
-            </div>
-        </div>
-        <hr/>
-        @endforeach
+        {!! $comments !!}
 
     
     {!! Form::close() !!}

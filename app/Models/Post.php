@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model {
 
-    protected $table = 'post';
+    protected $table = 'posts';
     //public $timestamps = false;
     protected $fillable = array('title', 'content', 'publish', 'user_id');
     

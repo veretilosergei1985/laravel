@@ -30,5 +30,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 * @var array
 	 */
 	protected $hidden = ['password', 'remember_token'];
+        
+        public static function findById($id) {
+            $model = self::find($id);
+            if (!is_null($model)) {
+                return $model;
+            }
+            return false;
+        }
 
 }
